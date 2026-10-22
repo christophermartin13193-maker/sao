@@ -5,7 +5,7 @@ use std::path::PathBuf;
 #[command(name = "sao")]
 #[command(version = "1.0.0")]
 #[command(author = "Chris Martin")]
-#[command(about, long_about)]
+#[command(about, long_about=None)]
 #[command(group = ArgGroup::new("target").args(["next", "previous", "name"]).required(true))]
 // Parsed command-line arguments.
 pub struct Args {
