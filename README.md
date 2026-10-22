@@ -27,7 +27,7 @@ Because PipeWire reassigns these IDs whenever system audio sinks change, a syste
 ### Building from Source
 
 ```bash
-git clone https://github.com/your-username/sao.git
+git clone https://github.com/christophermartin13193-maker/sao.git
 cd sao
 cargo build --release
 ```
