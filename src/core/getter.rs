@@ -1,5 +1,6 @@
-use super::{SaoError, ID};
+use super::{ID, SaoError};
 
+// Iterates through the list of sinks returned by wpctl to find the ID matching the target name
 pub fn id(target: &str, sinks: Vec<String>) -> Result<ID, SaoError> {
     for line in sinks {
         if line.contains(target) {
@@ -9,6 +10,7 @@ pub fn id(target: &str, sinks: Vec<String>) -> Result<ID, SaoError> {
     Err(SaoError::NoID(target.to_string()))
 }
 
+// Finds the next valid ID based on the order of the configuration list
 pub fn id_from_config(sinks: &[String], list: &[String]) -> Result<ID, SaoError> {
     let mut first_sink_id: Option<ID> = None;
     let mut current_sink_found = false;
@@ -20,7 +22,7 @@ pub fn id_from_config(sinks: &[String], list: &[String]) -> Result<ID, SaoError>
                 let id: ID = split.next().unwrap().parse()?;
 
                 if current_sink_found {
-                    return Ok(id)
+                    return Ok(id);
                 }
                 if first_sink_id.is_none() {
                     first_sink_id = Some(id)
@@ -41,6 +43,7 @@ pub fn id_from_config(sinks: &[String], list: &[String]) -> Result<ID, SaoError>
     }
 }
 
+// Checks if the wpctl executable is available on the system using the 'which' command
 pub fn check_cmd() -> Result<(), SaoError> {
     if std::process::Command::new("which")
         .arg("wpctl")
@@ -50,10 +53,11 @@ pub fn check_cmd() -> Result<(), SaoError> {
     {
         Ok(())
     } else {
-        Err(SaoError::NoConfigFile)
+        Err(SaoError::NoCmd)
     }
 }
 
+// Executes 'wpctl list audio sinks' and retrieves the output lines as a vector of strings
 pub fn sinks() -> Result<Vec<String>, SaoError> {
     let cmd = std::process::Command::new("wpctl")
         .arg("list")

@@ -1,17 +1,18 @@
 mod args;
 mod config;
 mod control;
+mod getter;
 mod runner;
 mod workflow;
-mod getter;
 
 // Internal API
 use args::{Args, Verbosity};
 use config::{Config, get, get_default};
-use control::{ERROR_CODE, ExitCode, STANDARD_CODE, SaoError};
-use workflow::{Step, ID};
-use runner::{init, target, next, previous, wpctl};
-use getter::{check_cmd, sinks, id, id_from_config};
+use control::SaoError;
+use control::code::ExitCode;
+use getter::{check_cmd, id, id_from_config, sinks};
+use runner::{init, next, previous, target, wpctl};
+use workflow::{ID, Step};
 
 // Both API
 pub use control::Output;
